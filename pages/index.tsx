@@ -16,6 +16,7 @@ export default function Home() {
           Simple React Typescript Tailwind Sample
         </h1>
         <a href="/login">Login page</a>
+        <a href="/register">Register page</a>
       </main>
 
       <footer className={styles.footer}>
