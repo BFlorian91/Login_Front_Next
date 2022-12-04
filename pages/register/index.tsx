@@ -6,19 +6,19 @@ import BtnLoginWith from "../../components/BtnLoginWith/BtnLoginWith";
 import appleLogo from "../../public/assets/img/applelogo.png";
 import Footer from "../../components/footer/Footer";
 
-interface IFormValues {
+interface IFormInputs {
   email: string;
   password: string;
   confirmPassword: string;
 }
 
-export default function Login() {
+export default function Register() {
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<IFormValues>({
+  } = useForm<IFormInputs>({
     defaultValues: {
       email: "",
       password: "",
@@ -26,7 +26,7 @@ export default function Login() {
     },
   });
 
-  const onSubmit = (data: IFormValues) => console.log(data);
+  const onSubmit = (data: IFormInputs) => console.log(data);
 
   React.useEffect(() => {
     const subscription = watch((value, { name, type }) =>
@@ -47,7 +47,7 @@ export default function Login() {
   };
 
   return (
-    <div className="flex justify-center mt-8">
+    <div className="flex justify-center mt-12">
       <div className="flex flex-col items-center">
         <form className="w-64 md:w-96" onSubmit={handleSubmit(onSubmit)}>
           <div className="w-64 md:w-96">
@@ -72,9 +72,10 @@ export default function Login() {
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker"
-                name="userMail"
-                id="userMail"
-                type="email"
+                {...register("email", {
+                  required: { value: true, message: "This field is requiered" },
+                  maxLength: 35,
+                })}
                 placeholder="email"
               />
             </div>
@@ -87,9 +88,14 @@ export default function Login() {
               </label>
               <input
                 className="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3"
-                id="password"
                 type="password"
                 placeholder="******************"
+                {...register("password", {
+                  minLength: {
+                    value: 8,
+                    message: "Your password must have at least 8 characters",
+                  },
+                })}
               />
               <p className="text-red text-xs italic">
                 Please choose a password.
@@ -104,9 +110,14 @@ export default function Login() {
               </label>
               <input
                 className="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3"
-                id="confirmPassword"
                 type="password"
                 placeholder="******************"
+                {...register("confirmPassword", {
+                  minLength: {
+                    value: 8,
+                    message: "Your password must have at least",
+                  },
+                })}
               />
               <p className="text-red text-xs italic">
                 Please confirm your password.
@@ -117,7 +128,7 @@ export default function Login() {
                 // href="/#"
                 test-id="signin-button"
                 className="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-8 cursor-pointer rounded border-white-50 border-2"
-                type="button"
+                type="submit"
                 // onClick={() => mailIsValid(data('email'))}
               >
                 Register

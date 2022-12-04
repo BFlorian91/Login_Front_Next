@@ -30,16 +30,15 @@ export default function Login() {
   React.useEffect(() => {
     const subscription = watch((value, { name, type }) =>
       console.log(value, name, type)
-    );
-    return subscription.unsubscribe();
+    )
+    return subscription.unsubscribe()
   }, [watch]);
 
   return (
-    <div className="flex justify-center mt-8">
+    <div className="flex justify-center mt-12">
       <div className="flex flex-col items-center">
         <form className="w-64 md:w-96" onSubmit={handleSubmit(onSubmit)}>
           <h1 className="text-3xl font-bold text-center">Login</h1>
-          {/* <span className="text-orange-700 font-black text-3xl flex-end">{renderCounter}</span> */}
           <div className="mt-12 grid space-y-4 bg-red">
             <BtnLoginWith
               logo="https://tailus.io/sources/blocks/social/preview/images/google.svg"
@@ -54,18 +53,28 @@ export default function Login() {
           <div className="mb-6 mt-6">
             <label
               className="block text-grey-darker text-sm font-bold mb-2"
-              htmlFor="username"
+              htmlFor="email"
             >
-              Username
+              Email
             </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker"
               {...register("email", {
                 required: { value: true, message: "This field is requiered" },
-                maxLength: 40,
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "Please enter a valid email",
+                },
+                maxLength: 30,
               })}
               placeholder="email"
             />
+            {/* {console.log(errors.email)} */}
+            {errors.email && (
+              <p data-testid="email-error" className="text-red-400">
+                {errors.email.message}
+              </p>
+            )}
           </div>
           <div className="mb-6">
             <label
@@ -89,7 +98,7 @@ export default function Login() {
           </div>
           <div className="flex flex-col space-y-8 items-center sm:flex-row sm:items-center sm:justify-around sm:space-y-0 justify-center">
             <button
-              test-id="signin-button"
+              data-testid="submit"
               className="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-8 cursor-pointer rounded border-white-50 border-2"
               type="submit"
             >
