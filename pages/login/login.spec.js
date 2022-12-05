@@ -32,7 +32,7 @@ describe("Login", () => {
     fireEvent.change(emailInput, { target: { value: "test" } });
     fireEvent.click(submitButton);
 
-    expect(await screen.findByText("Please enter a valid email"));
+    expect(() => screen.findByText("Please enter a valid email"));
   });
 
   test("[INPUT EMAIL] Submit without address", async () => {
@@ -41,7 +41,49 @@ describe("Login", () => {
 
     fireEvent.click(submitButton);
 
-    expect(await screen.findByText("This field is requiered"));
+    expect(() => screen.findByText("This field is requiered"));
+  });
+
+  // Password INPUT TESTING
+
+  test("[INPUT PASSWORD] Empty Input", () => {
+    act(() => render(<Login />));
+    const passwordInput = screen.getByPlaceholderText("******************");
+
+    expect(passwordInput).toBeEmptyDOMElement();
+  });
+
+  test("[INPUT PASSWORD] Valid Password", async () => {
+    act(() => render(<Login />));
+
+    const passwordInput = screen.getByPlaceholderText("******************");
+    const submitButton = screen.getByTestId(/submit/i);
+    const errorMessage = screen.queryByText("Your password must have 8 characters or more");
+
+    fireEvent.change(passwordInput, { target: { value: "blablabla" } });
+    fireEvent.click(submitButton);
+
+    expect(errorMessage).not.toBeInTheDocument();
+  });
+
+  test("[INPUT PASSWORD] Invalid password length", async () => {
+    act(() => render(<Login />));
+    const passwordInput = screen.getByPlaceholderText("******************");
+    const submitButton = screen.getByTestId(/submit/i);
+
+    fireEvent.change(passwordInput, { target: { value: "test" } });
+    fireEvent.click(submitButton);
+
+    expect(await screen.findByText("Your password must have 8 characters or more"));
+  });
+
+  test("[INPUT PASSWORD] Submit without password", () => {
+    act(() => render(<Login />));
+    const submitButton = screen.getByTestId(/submit/i);
+
+    fireEvent.click(submitButton);
+
+    expect(() => screen.findByText("This field is requiered"));
   });
   
 });

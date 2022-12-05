@@ -90,6 +90,7 @@ export default function Register() {
                 className="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3"
                 type="password"
                 placeholder="******************"
+                data-testid="password"
                 {...register("password", {
                   minLength: {
                     value: 8,
@@ -97,9 +98,6 @@ export default function Register() {
                   },
                 })}
               />
-              <p className="text-red text-xs italic">
-                Please choose a password.
-              </p>
             </div>
             <div className="mb-6">
               <label
@@ -112,6 +110,7 @@ export default function Register() {
                 className="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3"
                 type="password"
                 placeholder="******************"
+                data-testid="confirmPassword"
                 {...register("confirmPassword", {
                   minLength: {
                     value: 8,
@@ -126,7 +125,7 @@ export default function Register() {
             <div className="flex justify-around items-start mt-16">
               <a
                 // href="/#"
-                test-id="signin-button"
+                data-testid="submit"
                 className="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-8 cursor-pointer rounded border-white-50 border-2"
                 type="submit"
                 // onClick={() => mailIsValid(data('email'))}
